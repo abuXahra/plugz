@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plugz/ui/views/dispatchbooking/dispatch_booking.dart';
+import 'package:plugz/ui/views/dispatch/dispatch_booking.dart';
+import 'package:plugz/ui/views/errand/errand_booking.dart';
+import 'package:plugz/ui/widgets/custom_button_widget.dart';
 import 'package:provider/provider.dart';
 import 'core/view_model/dispatch_view_model.dart';
 
@@ -15,7 +17,54 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "plugz",
-      home: DispatchBooking(),
+      home: Homepage(),
     );
+  }
+}
+
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text('Homepage')),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomButtonWidget(
+                btnText: "Dispatch Booking",
+                btnColor: const Color(0xff9B51E0),
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DispatchBooking()));
+                },
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              CustomButtonWidget(
+                btnText: "Errand Booking",
+                btnColor: const Color(0xff9B51E0),
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ErrandBooking()));
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }

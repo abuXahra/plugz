@@ -511,7 +511,9 @@ class _DispatchBooking extends State<DispatchBooking> {
           child: InkWell(
             onTap: () {
               showModalBottomSheet(
-                  context: context, builder: (builder) => cameraBottomSheet());
+                context: context,
+                builder: (builder) => cameraBottomSheet(),
+              );
             },
             child: Icon(
               Icons.camera_alt,
@@ -596,6 +598,7 @@ class _DispatchBooking extends State<DispatchBooking> {
     Navigator.pop(context);
     setState(() {
       _imageFile = pickedFile;
+      print(_imageFile);
     });
   }
 

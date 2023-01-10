@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plugz/core/models/dispatch_model.dart';
-import 'package:plugz/ui/views/dispatchbooking/dispatch_booking.dart';
+import 'package:plugz/ui/views/dispatch/dispatch_booking.dart';
 import 'package:provider/provider.dart';
 import '../../../core/services/api.dart';
 import '../../../core/view_model/dispatch_view_model.dart';
