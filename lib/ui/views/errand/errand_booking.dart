@@ -98,7 +98,7 @@ class _ErrandBooking extends State<ErrandBooking> {
                 ),
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: 20),
 
               //=======================Errand Type==================
               const Text(
@@ -132,15 +132,13 @@ class _ErrandBooking extends State<ErrandBooking> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20),
-
                       CustomTextField(
                           controller: address,
                           label: 'Address',
                           keyboardType: TextInputType.text,
                           enabled: true),
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 5),
 
                       CustomTextField(
                           controller: errandDetail,
@@ -148,7 +146,7 @@ class _ErrandBooking extends State<ErrandBooking> {
                           keyboardType: TextInputType.text,
                           enabled: true),
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 5),
                       //Pickup date and time
                       Column(
                         children: [
@@ -189,7 +187,7 @@ class _ErrandBooking extends State<ErrandBooking> {
                                     ),
                                   ),
 
-                                  SizedBox(width: 20.0),
+                                  SizedBox(width: 80.0),
                                   //Pick Time
                                   InkWell(
                                     onTap: () async {
@@ -260,8 +258,6 @@ class _ErrandBooking extends State<ErrandBooking> {
                           );
                         }).toList(),
                       ),
-
-                      SizedBox(height: 20.0),
 
                       CustomButtonWidget(
                         btnText: "Priview",

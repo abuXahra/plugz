@@ -178,8 +178,8 @@ class ConfirmErrandBooking extends StatelessWidget {
                         color: Colors.black),
                   ),
                   Expanded(child: Container()),
-                  const Text(
-                    '\$60',
+                  Text(
+                    '$price',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -206,7 +206,7 @@ class ConfirmErrandBooking extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => Homepage()));
                       },
-                      btnColor: Color(0xff9B51E0)),
+                      btnColor: Colors.black),
                 ],
               ),
 
