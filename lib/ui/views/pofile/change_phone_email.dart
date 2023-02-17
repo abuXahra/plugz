@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:plugz/ui/widgets/custom_button_widget.dart';
 import 'package:plugz/ui/widgets/custom_textfield_widget.dart';
 
+import '../../../main.dart';
 import '../../widgets/show_editbox.dart';
 
 class ChangeEmailandPhone extends StatefulWidget {
@@ -157,10 +158,20 @@ class _ChangeEmailandPhoneState extends State<ChangeEmailandPhone> {
                     btnText: 'Change',
                     onTap: (){
                       //future builder
-
                     },
                     btnColor: const Color(0xff9B51E0)),
               ),
+              SizedBox(height: 20,),
+              CustomButtonWidget(
+                btnText: 'Home',
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Homepage()));
+                },
+                btnColor: Color(0xff9B51E0),
+              )
             ],
           ),
         ),

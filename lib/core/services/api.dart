@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:plugz/core/models/price_model.dart';
 import 'dart:io';
 import '../../utils/constants.dart';
 import '../models/dispatch_model.dart';
@@ -40,9 +41,37 @@ import '../models/get_price_model.dart';
 
 class Api {
   static Api instance = Api();
+  late Dispatch resp;
+  late Price priceRespons;
+  late dynamic imgResp;
 
-  String token =
-      'eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMTMzMTQ3MjYzNDEzOTAzMTMzIiwiZXhwIjoxNjcxNzExNDExLCJpc3MiOiJodHRwOi8vcm9hZHN0YXIuY29tIiwiYXVkIjoiaHR0cDovL3JvYWRzdGFyLmNvbSJ9.sAZb_Okjveg0shIdfFEYGY0UePgXRceulFqggJ2RSZw';
+  String token ='abcdefeyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMTMzMTQ3MjYzNDEzOTAzMTMzIiwiZXhwIjoxNjc2NjM2NTI4LCJpc3MiOiJodHRwOi8vcm9hZHN0YXIuY29tIiwiYXVkIjoiaHR0cDovL3JvYWRzdGFyLmNvbSJ9.uGoYshbsXU_Rut7fI07ouECMGZ_AmHsrmLIPVN_bKwY';
+
+
+  Future<http.Response> getPriceii(dynamic data) async{
+    final response = await http.post(
+      Uri.parse('https://rr-api.cloudware.com.ng/api/Rides/NewRide'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer $token'
+      },
+      body: jsonEncode(data.toJson()),
+    );
+    if(response.statusCode != 200){
+      //return error response here
+    }
+    var body = response.body;
+    Map<String, dynamic> jsonObj = jsonDecode(body);
+
+    priceRespons = Price.fromJson(jsonObj);
+
+    log(body);
+
+    return response;
+  }
+
+
+
 
   Future<http.Response> getPrice(double pickupLongitude, double pickupLatitude,
       double dropoffLongitude, double dropoffLatitude, int countryId) async {
@@ -52,6 +81,8 @@ class Api {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'bearer $token'
         },
+
+
         // body: jsonEncode(
         //   <String, dynamic>{
         //     "pickupLongitude": pickupLongitude,
@@ -87,128 +118,69 @@ class Api {
     }
   }
 
-  Future<http.Response> postNewRide(
-      String? typeOfRide,
-      String? packageDescription,
-      String? packageImage,
-      String? senderId,
-      String? pickupType,
-      String? pickupDateTime,
-      double? pickupLongitude,
-      double? pickupLatitude,
-      String? pickupAddress,
-      String? receiverId,
-      String? receiverTelephone,
-      String? dropoffDateTime,
-      double? dropoffLongitude,
-      double? dropoffLatitude,
-      String? dropoffAddress,
-      String? paymentType,
-      int? price) async {
+
+
+  Future<http.Response> postNewRide(dynamic dispatch) async {
     final response = await http.post(
       Uri.parse('https://rr-api.cloudware.com.ng/api/Rides/NewRide'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'bearer $token'
       },
-      body: jsonEncode(
-        <String, dynamic>{
-          'typeOfRide': '$typeOfRide',
-          'packageDescription': '$packageDescription',
-          'packageImage': '$packageImage',
-          'senderId': '$senderId',
-          'pickupType': '$pickupType',
-          'pickupDateTime': '$pickupDateTime',
-          'pickupLongitude': pickupLongitude,
-          'pickupLatitude': pickupLatitude,
-          'pickupAddress': '$pickupAddress',
-          'receiverId': '$receiverId',
-          'receiverTelephone': '$receiverTelephone',
-          'dropoffDateTime': '$dropoffDateTime',
-          'dropoffLongitude': dropoffLongitude,
-          'dropoffLatitude': dropoffLatitude,
-          'dropoffAddress': '$dropoffAddress',
-          'paymentType': '$paymentType',
-          'price': '$price'
-        },
-      ),
+      body: jsonEncode(dispatch.toJson()),
     );
-    print('=========Get price====================');
-    print(response.body);
+    if(response.statusCode != 200){
+      //return error response here
+    }
+    var body = response.body;
+    Map<String, dynamic> jsonObj = jsonDecode(body);
+
+    resp = Dispatch.fromJson(jsonObj);
+
+   log(response.body);
+
+   return response;
+
+  }
+
+
+
+  //live 149
+  Future<http.Response> postNewPicture(dynamic imgUrl) async {
+    final response = await http.post(
+      Uri.parse('https://plugzwallet.supportdom.com/api/Identity/FaceLivelinessCheck'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer $token'
+      },
+      body: jsonEncode(imgUrl.toJson()),
+    );
+    if(response.statusCode != 200){
+      //return error response here
+    }
+    var body = response.body;
+    Map<String, dynamic> jsonObj = jsonDecode(body);
+
+    imgResp = imgUrl.fromJson(jsonObj);
+
+    log(imgResp);
+    log("sucessfully uploaded");
+
+    return response;
+
+  }
+
+
+
+
+
+  Future<http.Response> post(dynamic request, Map<String, String> headers, String url,) async {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(request.toJson()),
+    );
     return response;
   }
 
-  // Future<http.Response> postNewRideii() async {
-
-  // var map = new Map<String, dynamic>();
-
-  //     var typeOfRide;
-  //     var packageDescription;
-  //     var packageImage;
-  //     var senderId;
-  //     var pickupType;
-  //     var pickuDateTime;
-  //     var pickupLongitude;
-  //     var pickupLatitude;
-  //     var pickupAddress;
-  //     var receiverId;
-  //     var receiverTelephone;
-  //     var dropoffDateTime;
-  //     var dropoffLongitude;
-  //     var dropoffLatitude;
-  //     var dropoffAddress;
-  //     var paymentType;
-
-  //        var data = {[
-
-  //     "typeOfRide": typeOfRide,
-  //     ]
-  //     String? packageDescription,
-  //     String? packageImage,
-  //     String? senderId,
-  //     String? pickupType,
-  //     String? pickupDateTime,
-  //     double? pickupLongitude,
-  //     double? pickupLatitude,
-  //     String? pickupAddress,
-  //     String? receiverId,
-  //     String? receiverTelephone,
-  //     String? dropoffDateTime,
-  //     double? dropoffLongitude,
-  //     double? dropoffLatitude,
-  //     String? dropoffAddress,
-  //     String? paymentType,
-  //     int? price]}
-  //   final response = await http.post(
-  //     Uri.parse('https://rr-api.cloudware.com.ng/api/Rides/NewRide'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //       'Authorization': 'bearer $token'
-  //     },
-  //     body: jsonEncode(
-  //       <String, dynamic>{
-  //         'typeOfRide': '$typeOfRide',
-  //         'packageDescription': '$packageDescription',
-  //         'packageImage': '$packageImage',
-  //         'senderId': '$senderId',
-  //         'pickupType': '$pickupType',
-  //         'pickupDateTime': '$pickupDateTime',
-  //         'pickupLongitude': pickupLongitude,
-  //         'pickupLatitude': pickupLatitude,
-  //         'pickupAddress': '$pickupAddress',
-  //         'receiverId': '$receiverId',
-  //         'receiverTelephone': '$receiverTelephone',
-  //         'dropoffDateTime': '$dropoffDateTime',
-  //         'dropoffLongitude': dropoffLongitude,
-  //         'dropoffLatitude': dropoffLatitude,
-  //         'dropoffAddress': '$dropoffAddress',
-  //         'paymentType': '$paymentType',
-  //         'price': '$price'
-  //       },
-  //     ),
-  //   );
-  //   print('=========Get price====================');
-  //   print(response.body);
-  //   return response;
-  // }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plugz/core/models/dispatch_model.dart';
@@ -19,8 +21,8 @@ class ConfirmDispatchBooking extends StatelessWidget {
     this.price,
     this.paymentMethodSelected,
     this.pickUpType,
-    this.pickupDateTime,
-    this.dropOffDateTime,
+    required this.pickupDateTime,
+    required this.dropOffDateTime,
   }) : super(key: key);
 
   final String? pickupAddress;
@@ -28,37 +30,71 @@ class ConfirmDispatchBooking extends StatelessWidget {
   final String? deliveryAddress;
   final String? receiverTelephone;
   final String? packageDescription;
-  final dynamic pickupDateTime;
-  final dynamic dropOffDateTime;
+  final DateTime pickupDateTime;
+  final DateTime dropOffDateTime;
   final String? imageUrl;
-  final int? price;
+  final double? price;
   final String? paymentMethodSelected;
 
-  Future<void> newRide() async {
-    Api.instance.postNewRide(
-        "", //typeOfRide
-        packageDescription, //packageDescription
-        imageUrl, //packageImage
-        '', // senderId
-        pickUpType, //pickupType,
-        '$pickupDateTime', //pickupDateTime,
-        0.0, // pickupLongitude,
-        0.0, //pickupLatitude,
-        pickupAddress, //pickupAddress
-        '', //receiverId,
-        receiverTelephone, //receiverTelephone
-        '$dropOffDateTime', //dropoffDateTime,
-        0.0, // dropoffLongitude,
-        0.0, //dropoffLatitude,
-        deliveryAddress, //dropoffAddress
-        paymentMethodSelected, // paymentType,
-        price //priceList
-        );
+
+  // {
+  // "pickupLongitude": 7.4084544,
+  // "pickupLatitude": 9.0886462,
+  // "dropoffLongitude": 7.40844166666667,
+  // "dropoffLatitude": 9.08902166666667,
+  // "countryId": "234"
+  // }
+
+  Future<dynamic> newRide() async {
+    var req = Dispatch(
+      typeOfRide: '',
+        packageDescription: packageDescription,
+        packageImage: imageUrl,
+        senderId: 'senderId',
+        pickupType: pickUpType,
+        pickupDateTime: pickupDateTime,
+        pickupLongitude: 7.4084544,
+        pickupLatitude: 9.0886462,
+        pickupAddress: pickupAddress,
+        receiverId: 'receiverId',
+        receiverTelephone: receiverTelephone,
+        dropoffDateTime: dropOffDateTime,
+        dropoffLongitude: 7.40844166666667,
+        dropoffLatitude: 9.08902166666667,
+        dropoffAddress: deliveryAddress,
+        paymentType: paymentMethodSelected,
+        price: price,
+    );
+
+    return Api.instance.postNewRide(req);
   }
+
+
+  // late Dispatch resp;
+  // late List<Dispatch> resp2;
+  //
+  // Future<void> newRide() async {
+  //   var req = Dispatch( packageDescription: packageDescription, packageImage: packageImage, senderId: senderId, pickupType: pickupType, pickupDateTime: pickupDateTime, pickupLongitude: pickupLongitude, pickupLatitude: pickupLatitude, pickupAddress: pickupAddress, receiverId: receiverId, receiverTelephone: receiverTelephone, dropoffDateTime: dropoffDateTime, dropoffLongitude: dropoffLongitude, dropoffLatitude: dropoffLatitude, dropoffAddress: dropoffAddress, paymentType: paymentType, price: price);
+  //
+  //   var headers = Map<String, String>{
+  //     "Content-Type": "application/json; UTF-8"
+  //   };
+  //
+  //   var response = await Api.instance.post( req,headers, 'https://rr-api.cloudware.com.ng/api/Rides/NewRide');
+  //
+  //   if(response.statusCode != 200){
+  //     //return error response here
+  //   }
+  //
+  //   var body = response.body;
+  //   Map<String, dynamic> jsonObj = jsonDecode(body);
+  //   resp = Dispatch.fromJson(jsonObj);
+  //
+  // }
 
   // Future<void> newRide() async {
   //   postNewRide()
-  // Dispatch dispatch = Dispatch(
+  // Dispatch dispatch = Dispatch(e
   //         typeOfRide: "",
   //         packageDescription: packageDescription,
   //         packageImage: imageUrl,
@@ -101,31 +137,19 @@ class ConfirmDispatchBooking extends StatelessWidget {
             ), //IconButton
           ], //<Wi
         ),
-        body:
-            // Consumer<DataClass>(builder: (context, data, child) {
-            //   return data.loading
-            //       ? Center(
-            //           child: Container(
-            //             child: SpinKitThreeBounce(
-            //               itemBuilder: (BuildContext context, int index) {
-            //                 return DecoratedBox(
-            //                   decoration: BoxDecoration(
-            //                     borderRadius: BorderRadius.circular(15),
-            //                     color: index.isEven
-            //                         ? Color(0xff9B51E0)
-            //                         : Color(0xff9B51E0),
-            //                   ),
-            //                 );
-            //               },
-            //             ),
-            //           ),
-            //         )
-            //       :
-            SingleChildScrollView(
+        body:SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: DispatchWidget(
+            child:
+            // Column(
+            //   children: resp2.map((e) => ListTile(
+            //     title: e.packageDescription,
+            //     subtitle: e.pickupType,
+            //   )).toList(),
+            // ),
+
+            DispatchWidget(
               title: 'Confirm Dispatch',
               pickupAddress: pickupAddress,
               deliveryAddress: deliveryAddress,
@@ -166,204 +190,3 @@ class ConfirmDispatchBooking extends StatelessWidget {
   }
 }
 
-//
-//
-// Future<void> _newRide() async {
-//
-//   Dispatch dispatch = Dispatch(
-//       typeOfRide: "",
-//       packageDescription: _packageDescription.text.trim(),
-//       packageImage: imageUrl,
-//       senderId: "",
-//       pickupType: "",
-//       pickupDateTime: "${_deliveryDate.text} ${_deliveryTime.text}",
-//       pickupLongitude: 22,
-//       pickupLatitude: 23,
-//       pickupAddress: _pickupAddress.text,
-//       receiverId: "",
-//       receiverTelephone: _receiverTelephone.text,
-//       dropoffDateTime: "${_deliveryDate.text} ${_deliveryTime.text}",
-//       dropoffLongitude: 20,
-//       dropoffLatitude: 21,
-//       dropoffAddress: _deliveryAddress.text,
-//       paymentType: paymentMethodSelected,
-//       price: price);
-//
-//   var provider = Provider.of<DataClass>(context, listen: false);
-//   await provider.postData(dispatch);
-//   if (provider.isBack) {
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(builder: (context) =>  DispatchBooking()),
-//     );
-//   }
-// }
-
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// const SizedBox(height: 20),
-// const Text(
-// 'Confirm',
-// textAlign: TextAlign.left,
-// style: TextStyle(
-// fontSize: 20,
-// fontWeight: FontWeight.bold,
-// color: Colors.black),
-// ),
-// const SizedBox(
-// height: 40,
-// ),
-// const Text(
-// 'Pickup Address',
-// textAlign: TextAlign.left,
-// style:
-// TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-// ),
-// const SizedBox(height: 10),
-// Text(
-// '$pickupAddress',
-// textAlign: TextAlign.left,
-// style: const TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 18,
-// color: Colors.black),
-// ),
-//
-// const SizedBox(
-// height: 20,
-// ),
-// const Text(
-// 'Delivery Address',
-// textAlign: TextAlign.left,
-// style:
-// TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-// ),
-// const SizedBox(height: 10),
-// Text(
-// '$deliveryAddress',
-// textAlign: TextAlign.left,
-// style: const TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 18,
-// color: Colors.black),
-// ),
-//
-// const SizedBox(
-// height: 20,
-// ),
-// const Text(
-// 'Package Description',
-// textAlign: TextAlign.left,
-// style:
-// TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-// ),
-// const SizedBox(height: 10),
-// Text(
-// '$packageDescription',
-// textAlign: TextAlign.left,
-// style: const TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 18,
-// color: Colors.black),
-// ),
-//
-// const SizedBox(
-// height: 20,
-// ),
-// const Text(
-// 'Delivery Date',
-// textAlign: TextAlign.left,
-// style:
-// TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-// ),
-// const SizedBox(height: 10),
-// Text(
-// '$deliveryDate',
-// textAlign: TextAlign.left,
-// style: const TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 18,
-// color: Colors.black),
-// ),
-//
-// const SizedBox(
-// height: 20,
-// ),
-// const Text(
-// 'Delivery Time',
-// textAlign: TextAlign.left,
-// style:
-// TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-// ),
-// SizedBox(height: 10),
-// Text(
-// '$deliveryTime',
-// textAlign: TextAlign.left,
-// style: const TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 18,
-// color: Colors.black),
-// ),
-//
-// SizedBox(height: 10),
-// Text(
-// '$paymentMethodSelected',
-// textAlign: TextAlign.left,
-// style: const TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 18,
-// color: Colors.black),
-// ),
-//
-// const SizedBox(
-// height: 20,
-// ),
-// const Text(
-// 'Payment Summary',
-// textAlign: TextAlign.left,
-// style:
-// TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-// ),
-// const SizedBox(height: 10),
-// Text(
-// '$price',
-// textAlign: TextAlign.left,
-// style: const TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 18,
-// color: Colors.black),
-// ),
-// const SizedBox(height: 20.0),
-//
-// ElevatedButton(
-// style: ButtonStyle(
-// foregroundColor:
-// MaterialStateProperty.all<Color>(Colors.white),
-// backgroundColor: MaterialStateProperty.all<Color>(
-// const Color(0xff9B51E0)),
-// shape: MaterialStateProperty.all<
-//     RoundedRectangleBorder>(
-// RoundedRectangleBorder(
-// borderRadius: BorderRadius.circular(5.0),
-// ))),
-// onPressed: () {
-// _newRide();
-// Navigator.pushReplacement(context, MaterialPageRoute(
-// builder: (context) => DispatchBooking()));
-//
-// },
-// child: Container(
-// height: 50,
-// child: const Center(
-// child: Text("Confirm Booking",
-// style: TextStyle(fontSize: 16))),
-// ),
-// ),
-//
-// const SizedBox(height: 20.0),
-// //the card container
-//
-// //the three dot
-// ],
-// )

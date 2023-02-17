@@ -26,7 +26,7 @@ class DispatchedBooked extends StatelessWidget {
   final dynamic pickupDateTime;
   final dynamic dropOffDateTime;
   final String? imageUrl;
-  final int? price;
+  final double? price;
   final String? paymentMethodSelected;
 
   @override

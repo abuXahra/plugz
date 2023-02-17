@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
+import '../../widgets/custom_button_widget.dart';
+
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({super.key});
 
@@ -32,14 +35,32 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
               const SizedBox(height: 10),
               // ignore: prefer_const_constructors
-              Text(
-                'uytyut676gffasd38809nhbhgfcf',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black),
+
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'uytyut676gffasd38809nhbhgfcf',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black),
+                  ),
+                  Container(
+                    child: Row(children: [
+                      Image.asset(
+                        'images/badge.png',
+                        height: 20,
+                        width: 30,
+                      ),
+                      const Text('Verified')
+                    ]),
+                  )
+                ],
               ),
+
 
               const Divider(
                 thickness:
@@ -81,14 +102,31 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
               const SizedBox(height: 5),
               // ignore: prefer_const_constructors
-              Text(
-                '09000000000',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '09000000000',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black),
+                  ),
+                  Container(
+                    child: Row(children: [
+                      Image.asset(
+                        'images/badge.png',
+                        height: 20,
+                        width: 30,
+                      ),
+                      const Text('Verified')
+                    ]),
+                  )
+                ],
               ),
+
               const Divider(
                 thickness:
                     1, // thickness of the line.// empty space to the trailing edge of the divider.
@@ -176,6 +214,19 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     fontSize: 18,
                     color: Colors.black),
               ),
+
+              SizedBox(height: 20,),
+              CustomButtonWidget(
+                btnText: 'Home',
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Homepage()));
+                },
+                btnColor: Color(0xff9B51E0),
+              )
+
             ],
           ),
         ),

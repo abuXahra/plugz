@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:plugz/core/models/price_model.dart';
 import 'package:plugz/core/services/api.dart';
 import 'package:plugz/ui/widgets/custom_textfield_widget.dart';
 import '../../widgets/custom_button_widget.dart';
@@ -47,23 +50,37 @@ class _DispatchBooking extends State<DispatchBooking> {
         dropoffLatitude, countryId);
   }
 
+
+
+
+  Future<void> newPriceii() async {
+    var nepriceData = {
+      "pickupLongitude": pickupLongitude,
+      "pickupLatitude": pickupLatitude,
+      "dropoffLongitude": dropoffLongitude,
+      "dropoffLatitude": dropoffLatitude,
+      "countryId": 234
+    };
+
+    Api.instance.getPriceii(nepriceData);
+  }
+
+
+
+
   final _formKey = GlobalKey<FormState>();
+
 
   //variables for mage picker
   XFile? _imageFile;
   final ImagePicker _picker = ImagePicker();
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   context.read<ProductProvider>().getAllPrices();
-  // }
+
+
 
   @override
   Widget build(BuildContext context) {
-    // final priceObj = context.watch<ProductProvider>();
-    // pickUpType = priceObj.priceLists;
+
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -86,16 +103,20 @@ class _DispatchBooking extends State<DispatchBooking> {
           ], //<Wi
         ),
         body:
-            // priceObj.isLoading == false
-            //     ? const Center(
-            //         child: CircularProgressIndicator(
-            //           color: Color(0xff9B51E0),
-            //         ),
-            //       )
-            //     :
+
             SingleChildScrollView(
                 child: Column(
           children: [
+
+
+            Text('display Image picked'),
+            Image.asset(
+              _imageFile!.path,
+              height: 60,
+              width: 60,
+            ),
+
+
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(10),
@@ -461,7 +482,7 @@ class _DispatchBooking extends State<DispatchBooking> {
                               btnColor: Color(0xff9B51E0),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  newPrice();
+                                  //newPriceii();
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
@@ -479,7 +500,7 @@ class _DispatchBooking extends State<DispatchBooking> {
                                                 dropOffDateTime:
                                                     dropOffDateTime,
                                                 imageUrl: imageUrl,
-                                                price: price,
+                                                price: 45.9,
                                                 paymentMethodSelected:
                                                     paymentMethodSelected,
                                                 pickUpType: pickUpTypeSelected,
@@ -562,7 +583,7 @@ class _DispatchBooking extends State<DispatchBooking> {
                 backgroundColor: Color(0xffE1EAF1),
                 child: IconButton(
                   icon: const Icon(Icons.image, color: Color(0xff9B51E0)),
-                  tooltip: 'take a shot',
+                  tooltip: 'Choose from gallery',
                   onPressed: () {
                     _getFromGallery();
                   },
@@ -583,6 +604,8 @@ class _DispatchBooking extends State<DispatchBooking> {
   //   });
   // }
 
+
+
   void _getFromCamera() async {
     XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.camera);
@@ -601,6 +624,9 @@ class _DispatchBooking extends State<DispatchBooking> {
       print(_imageFile);
     });
   }
+
+
+
 
 //Pick date method
   Future<DateTime?> pickDate() => showDatePicker(

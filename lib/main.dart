@@ -7,6 +7,7 @@ import 'package:plugz/ui/views/errand/errand_booking.dart';
 import 'package:plugz/ui/widgets/custom_button_widget.dart';
 import 'package:provider/provider.dart';
 import 'core/view_model/dispatch_view_model.dart';
+import 'pages/image_upload.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,19 +57,19 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 20.0,
               ),
-              CustomButtonWidget(
-                btnText: "Errand Booking",
-                btnColor: const Color(0xff9B51E0),
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ErrandBooking()));
-                },
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
+              // CustomButtonWidget(
+              //   btnText: "Errand Booking",
+              //   btnColor: const Color(0xff9B51E0),
+              //   onTap: () {
+              //     Navigator.pushReplacement(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => const ErrandBooking()));
+              //   },
+              // ),
+              // SizedBox(
+              //   height: 20.0,
+              // ),
               CustomButtonWidget(
                 btnText: "Personal Info",
                 btnColor: const Color(0xff9B51E0),
@@ -109,13 +110,13 @@ class _HomepageState extends State<Homepage> {
                 height: 20.0,
               ),
               CustomButtonWidget(
-                btnText: "Dispactch",
+                btnText: "Upload Picture",
                 btnColor: const Color(0xff9B51E0),
                 onTap: () {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DispatchBooking()));
+                          builder: (context) => const MyHomePageState()));
                 },
               ),
             ],

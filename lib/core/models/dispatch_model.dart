@@ -1,4 +1,3 @@
-import 'price_model.dart';
 
 class Dispatch {
   String? typeOfRide;
@@ -6,24 +5,24 @@ class Dispatch {
   String? packageImage;
   String? senderId;
   String? pickupType;
-  String? pickupDateTime;
+  dynamic? pickupDateTime;
   double? pickupLongitude;
   double? pickupLatitude;
   String? pickupAddress;
   String? receiverId;
   String? receiverTelephone;
-  String? dropoffDateTime;
+  dynamic dropoffDateTime;
   double? dropoffLongitude;
   double? dropoffLatitude;
   String? dropoffAddress;
   String? paymentType;
-  Price? price;
+  double? price;
 
   Dispatch(
-      {required this.typeOfRide,
+      {this.typeOfRide,
       required this.packageDescription,
       required this.packageImage,
-      required this.senderId,
+      this.senderId,
       required this.pickupType,
       required this.pickupDateTime,
       required this.pickupLongitude,
@@ -55,7 +54,7 @@ class Dispatch {
     dropoffLatitude = json['dropoffLatitude'];
     dropoffAddress = json['dropoffAddress'];
     paymentType = json['paymentType'];
-    price = Price.fromJson(json['amount']);
+    price = json['amount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,7 +75,7 @@ class Dispatch {
       'dropoffLatitude': this.dropoffLatitude,
       'dropoffAddress': this.dropoffAddress,
       'paymentType': this.paymentType,
-      'price': price!.toJson(),
+      'price': this.price,
     };
   }
 }
